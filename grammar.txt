@@ -1,0 +1,4 @@
+EXPR: VAL OP EXPR | VAL
+VAL:  [(] EXPR [)] | NUM
+NUM:  [0-9]+
+OP:   [-+*/]
