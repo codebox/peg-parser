@@ -1,4 +1,4 @@
-import re, sys, pprint
+import re, sys, pprint, arithmetic_eval
 
 '''
 Rough and ready PEG parser, needs much work
@@ -57,47 +57,7 @@ def consume(symbol, g, txt):
 			return txt[len(matching_txt):], matching_txt
 		else:
 			return None, None
-
-def op(o, n1, n2):
-	if o == '+':
-		return n1 + n2
-	elif o == '-':
-		return n1 - n2
-	elif o == '*':
-		return n1 * n2
-	elif o == '/':
-		return n1 / n2
-	else:
-		raise 'op fail'
 		
-def flatten(l):
-	if type(l) is list:
-		return flatten(l[0]) if len(l) == 1 else map(flatten, l)
-	else:
-		return l
-	
-def eval_tree(tree):
-	n=tree[0]
-	o=tree[1]
-	if (n == 'EXPR') or (n == 'TERM') :
-		if len(o) == 3:
-			return op(o[1][1][0], eval_tree(o[0]), eval_tree(o[2]))
-		else:
-			return eval_tree(o[0])
-		
-	elif n == 'VAL':
-		if len(o) == 3:
-			return eval_tree(o[1])
-		else:
-			return eval_tree(o[0])
-			
-	elif n == 'NUM':
-		return int(o[0])
-		
-	else:
-		raise 'eval fail'
-			
-						
 def main():
 	# read the grammar
 	tokenised_grammar = parse_grammar_file('grammar.txt')
